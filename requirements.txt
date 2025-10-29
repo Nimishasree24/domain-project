@@ -1,0 +1,27 @@
+# Core dependencies
+pandas==2.3.3
+numpy==2.2.6
+scikit-learn==1.5.1
+
+# Natural Language Processing
+nltk==3.9.2
+
+# Explainability (SHAP)
+shap==0.49.1
+numba==0.62.1
+
+# Visualization
+matplotlib==3.10.7
+seaborn==0.13.2
+
+# Streamlit Web App
+streamlit==1.50.0
+
+# Parquet + CSV support
+pyarrow==22.0.0
+
+# Utilities
+joblib==1.5.2
+tqdm==4.67.1
+regex==2025.10.23
+cloudpickle==3.1.1
