@@ -27,9 +27,9 @@ nltk.download("averaged_perceptron_tagger", quiet=True)
 nltk.download("omw-1.4", quiet=True)
 
 # Paths 
-MODEL_PATH = r"C:\Users\asus\Desktop\ESG green washing detection\model.pkl"
-VECT_PATH = r"C:\Users\asus\Desktop\ESG green washing detection\vectorizer.pkl"
-ESG_CSV_PATH = r"C:\Users\asus\Desktop\ESG green washing detection\datasets\esg_documents_for_dax_companies.csv"
+MODEL_PATH = r"model.pkl"
+VECT_PATH = r"vectorizer.pkl"
+ESG_CSV_PATH = r"esg_documents_for_dax_companies.csv"
 
 # Preprocessing 
 lemmatizer = WordNetLemmatizer()
