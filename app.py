@@ -32,13 +32,7 @@ from nltk.tokenize import word_tokenize
 st.set_page_config(page_title="ESG Greenwashing Detector (Explainable)", layout="wide")
 st.title("Dual-Mode Explainable AI System for ESG Greenwashing Detection: Company-Level and Custom Text Analysis with SHAP Transparency")
 st.markdown("Analyze and interpret ESG statements for potential greenwashing using AI explainability (SHAP).")
-'''
-# NLTK Downloads 
-nltk.download("punkt", quiet=True)
-nltk.download("wordnet", quiet=True)
-nltk.download("averaged_perceptron_tagger", quiet=True)
-nltk.download("omw-1.4", quiet=True)
-'''
+
 # Paths 
 MODEL_PATH = r"model.pkl"
 VECT_PATH = r"vectorizer.pkl"
