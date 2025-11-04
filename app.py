@@ -8,6 +8,19 @@ import string
 import os
 import pickle
 import nltk
+import os
+
+# Fix for NLTK data on Streamlit Cloud
+nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
+os.makedirs(nltk_data_dir, exist_ok=True)
+nltk.data.path.append(nltk_data_dir)
+
+# Ensure required NLTK resources are downloaded to the custom directory
+for pkg in ["punkt", "wordnet", "averaged_perceptron_tagger", "omw-1.4"]:
+    try:
+        nltk.data.find(f"tokenizers/{pkg}" if pkg == "punkt" else f"corpora/{pkg}")
+    except LookupError:
+        nltk.download(pkg, download_dir=nltk_data_dir, quiet=True)
 import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
