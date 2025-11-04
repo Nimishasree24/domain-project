@@ -10,12 +10,12 @@ import pickle
 import nltk
 import os
 
-# Fix for NLTK data on Streamlit Cloud
+# --- FIX FOR STREAMLIT CLOUD NLTK DATA ---
 nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
 os.makedirs(nltk_data_dir, exist_ok=True)
 nltk.data.path.append(nltk_data_dir)
 
-# Ensure required NLTK resources are downloaded to the custom directory
+# Ensure required NLTK packages are available
 for pkg in ["punkt", "wordnet", "averaged_perceptron_tagger", "omw-1.4"]:
     try:
         nltk.data.find(f"tokenizers/{pkg}" if pkg == "punkt" else f"corpora/{pkg}")
@@ -32,13 +32,13 @@ from nltk.tokenize import word_tokenize
 st.set_page_config(page_title="ESG Greenwashing Detector (Explainable)", layout="wide")
 st.title("Dual-Mode Explainable AI System for ESG Greenwashing Detection: Company-Level and Custom Text Analysis with SHAP Transparency")
 st.markdown("Analyze and interpret ESG statements for potential greenwashing using AI explainability (SHAP).")
-
+'''
 # NLTK Downloads 
 nltk.download("punkt", quiet=True)
 nltk.download("wordnet", quiet=True)
 nltk.download("averaged_perceptron_tagger", quiet=True)
 nltk.download("omw-1.4", quiet=True)
-
+'''
 # Paths 
 MODEL_PATH = r"model.pkl"
 VECT_PATH = r"vectorizer.pkl"
