@@ -16,7 +16,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet          
 from nltk.tokenize import word_tokenize
 
-# --- FIX FOR STREAMLIT CLOUD NLTK DATA ---
+
 nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
 os.makedirs(nltk_data_dir, exist_ok=True)
 nltk.data.path.append(nltk_data_dir)
@@ -30,20 +30,13 @@ nltk_packages = {
 
 for pkg, resource_path in nltk_packages.items():
     try:
-        # Try to find the resource by its path first
         nltk.data.find(resource_path)
     except LookupError:
-        # If not found, download the package
-        
-        # --- CHANGE MADE HERE ---
-        # Use print() instead of st.info() and st.success() 
         print(f"Downloading required NLTK package: {pkg}...") 
         try:
             nltk.download(pkg, download_dir=nltk_data_dir, quiet=True)
             print(f"{pkg} downloaded successfully.")
         except Exception as e:
-            # Use a print statement or st.error if you want errors displayed, 
-            # but using print keeps everything in the logs.
             print(f"Failed to download {pkg}. Error: {e}")
 
 
@@ -59,31 +52,26 @@ VECT_PATH = r"vectorizer.pkl"
 ESG_CSV_PATH = r"esg_documents_for_dax_companies.csv"
 
 # Preprocessing 
-lemmatizer = WordNetLemmatizer()
-
 def get_pos(tag):
     if tag.startswith("J"): return wordnet.ADJ
     if tag.startswith("V"): return wordnet.VERB
     if tag.startswith("N"): return wordnet.NOUN
     if tag.startswith("R"): return wordnet.ADV
     return wordnet.NOUN
-# app.py (around line 56)
 
 def clean_text(text):
+    lemmatizer = WordNetLemmatizer()
+    
     text = str(text).lower()
     text = re.sub(r"http\S+|www\S+|https\S+", "", text)
     text = re.sub(r"\d+", "", text)
     text = text.translate(str.maketrans("", "", string.punctuation))
     
-    # --- FIX APPLIED HERE ---
-    # Original (Line 56): words = word_tokenize(text)
     words = word_tokenize(text, preserve_line=True) 
-    # --- END FIX ---
-    
     pos_tags = nltk.pos_tag(words)
+    
     lemmatized = [lemmatizer.lemmatize(w, get_pos(t)) for w, t in pos_tags]
     return " ".join(lemmatized)
-
 
 # Load Files 
 @st.cache_data
