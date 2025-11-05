@@ -47,16 +47,23 @@ def get_pos(tag):
     if tag.startswith("N"): return wordnet.NOUN
     if tag.startswith("R"): return wordnet.ADV
     return wordnet.NOUN
+# app.py (around line 56)
 
 def clean_text(text):
     text = str(text).lower()
     text = re.sub(r"http\S+|www\S+|https\S+", "", text)
     text = re.sub(r"\d+", "", text)
     text = text.translate(str.maketrans("", "", string.punctuation))
-    words = word_tokenize(text)
+    
+    # --- FIX APPLIED HERE ---
+    # Original (Line 56): words = word_tokenize(text)
+    words = word_tokenize(text, preserve_line=True) 
+    # --- END FIX ---
+    
     pos_tags = nltk.pos_tag(words)
     lemmatized = [lemmatizer.lemmatize(w, get_pos(t)) for w, t in pos_tags]
     return " ".join(lemmatized)
+
 
 # Load Files 
 @st.cache_data
