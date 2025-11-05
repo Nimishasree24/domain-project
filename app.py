@@ -9,18 +9,18 @@ import os
 import pickle
 import nltk
 import os
+import shap
+import matplotlib.pyplot as plt
+import seaborn as sns
+from nltk.stem import WordNetLemmatizer  
+from nltk.corpus import wordnet          
+from nltk.tokenize import word_tokenize
 
 # --- FIX FOR STREAMLIT CLOUD NLTK DATA ---
 nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
 os.makedirs(nltk_data_dir, exist_ok=True)
 nltk.data.path.append(nltk_data_dir)
 
-# List of required NLTK resources and their expected names/locations
-# app.py (Modified NLTK Data Setup)
-
-# ... (Lines 1-27: NLTK path setup)
-
-# List of required NLTK resources and their expected names/locations
 nltk_packages = {
     "punkt": "tokenizers/punkt",
     "wordnet": "corpora/wordnet",
@@ -46,12 +46,7 @@ for pkg, resource_path in nltk_packages.items():
             # but using print keeps everything in the logs.
             print(f"Failed to download {pkg}. Error: {e}")
 
-import shap
-import matplotlib.pyplot as plt
-import seaborn as sns
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import wordnet
-from nltk.tokenize import word_tokenize
+
 
 # Streamlit Config 
 st.set_page_config(page_title="ESG Greenwashing Detector (Explainable)", layout="wide")
