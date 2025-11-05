@@ -16,28 +16,34 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet          
 from nltk.tokenize import word_tokenize
 
-
+# Create local nltk_data folder
 nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
 os.makedirs(nltk_data_dir, exist_ok=True)
 nltk.data.path.append(nltk_data_dir)
 
-nltk_packages = {
-    "punkt": "tokenizers/punkt",
-    "wordnet": "corpora/wordnet",
-    "averaged_perceptron_tagger": "taggers/averaged_perceptron_tagger", 
-    "omw-1.4": "corpora/omw-1.4"
-}
+# Required resources (including new tagger names)
+resources = [
+    ("punkt", "tokenizers/punkt"),
+    ("punkt_tab", "tokenizers/punkt_tab"),
+    ("wordnet", "corpora/wordnet"),
+    ("omw-1.4", "corpora/omw-1.4"),
+    ("averaged_perceptron_tagger", "taggers/averaged_perceptron_tagger"),
+    ("averaged_perceptron_tagger_eng", "taggers/averaged_perceptron_tagger_eng"),
+    ("averaged_perceptron_tagger_en", "taggers/averaged_perceptron_tagger_en")
+]
 
-for pkg, resource_path in nltk_packages.items():
+# Download missing resources quietly
+for pkg, path in resources:
     try:
-        nltk.data.find(resource_path)
+        nltk.data.find(path)
     except LookupError:
-        print(f"Downloading required NLTK package: {pkg}...") 
-        try:
-            nltk.download(pkg, download_dir=nltk_data_dir, quiet=True)
-            print(f"{pkg} downloaded successfully.")
-        except Exception as e:
-            print(f"Failed to download {pkg}. Error: {e}")
+        nltk.download(pkg, download_dir=nltk_data_dir, quiet=True)
+
+# Fallback tagger (edge cases on Streamlit Cloud)
+try:
+    nltk.data.find("taggers/averaged_perceptron_tagger_eng")
+except LookupError:
+    nltk.download("averaged_perceptron_tagger_eng", download_dir=nltk_data_dir, quiet=True)
 
 
 
