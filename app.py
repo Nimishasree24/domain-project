@@ -15,12 +15,37 @@ nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
 os.makedirs(nltk_data_dir, exist_ok=True)
 nltk.data.path.append(nltk_data_dir)
 
-# Ensure required NLTK packages are available
-for pkg in ["punkt", "wordnet", "averaged_perceptron_tagger", "omw-1.4"]:
+# List of required NLTK resources and their expected names/locations
+# app.py (Modified NLTK Data Setup)
+
+# ... (Lines 1-27: NLTK path setup)
+
+# List of required NLTK resources and their expected names/locations
+nltk_packages = {
+    "punkt": "tokenizers/punkt",
+    "wordnet": "corpora/wordnet",
+    "averaged_perceptron_tagger": "taggers/averaged_perceptron_tagger", 
+    "omw-1.4": "corpora/omw-1.4"
+}
+
+for pkg, resource_path in nltk_packages.items():
     try:
-        nltk.data.find(f"tokenizers/{pkg}" if pkg == "punkt" else f"corpora/{pkg}")
+        # Try to find the resource by its path first
+        nltk.data.find(resource_path)
     except LookupError:
-        nltk.download(pkg, download_dir=nltk_data_dir, quiet=True)
+        # If not found, download the package
+        
+        # --- CHANGE MADE HERE ---
+        # Use print() instead of st.info() and st.success() 
+        print(f"Downloading required NLTK package: {pkg}...") 
+        try:
+            nltk.download(pkg, download_dir=nltk_data_dir, quiet=True)
+            print(f"{pkg} downloaded successfully.")
+        except Exception as e:
+            # Use a print statement or st.error if you want errors displayed, 
+            # but using print keeps everything in the logs.
+            print(f"Failed to download {pkg}. Error: {e}")
+
 import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
