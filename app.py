@@ -95,12 +95,39 @@ def load_model_vectorizer(model_path, vect_path):
 @st.cache_data
 def load_esg_csv(path):
     try:
-        df = pd.read_csv(path, sep="|", engine="python", quoting=3, on_bad_lines="skip")
-        df["content"] = df["content"].astype(str)
+        # Try UTF-8 first
+        try:
+            df = pd.read_csv(
+                path,
+                sep="|",
+                engine="python",
+                quoting=3,
+                on_bad_lines="skip",
+                encoding="utf-8"
+            )
+        except UnicodeDecodeError:
+            # Fallback to Latin-1 if UTF-8 fails
+            df = pd.read_csv(
+                path,
+                sep="|",
+                engine="python",
+                quoting=3,
+                on_bad_lines="skip",
+                encoding="latin1"
+            )
+
+        # Clean stray encoding artifacts like Â or Ã
+        df["content"] = (
+            df["content"]
+            .astype(str)
+            .str.encode("latin1", "ignore")
+            .str.decode("utf-8", "ignore")
+        )
         return df
     except Exception as e:
         st.warning(f"Failed to load ESG CSV: {e}")
         return pd.DataFrame()
+
 
 # SHAP Compatibility Helper 
 def make_explainer(model, background):
